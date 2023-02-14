@@ -16,7 +16,7 @@ jobs:
         sudo apt-get install -y gcovr
 
     - name: build
-      run: gcc -Wall -Wextra -fprofile-arcs -ftest-coverage -o testchecker *.c*
+      run: g++ -Wall -Wextra -fprofile-arcs -ftest-coverage -o testchecker *.c*
       
     - name: run
       run: ./testchecker
