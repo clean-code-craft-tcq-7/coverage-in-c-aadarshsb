@@ -3,7 +3,8 @@
 typedef enum {
   PASSIVE_COOLING,
   HI_ACTIVE_COOLING,
-  MED_ACTIVE_COOLING
+  MED_ACTIVE_COOLING,
+  NO_OF_COOLING_TYPE
 } CoolingType;
 
 typedef enum {
@@ -14,6 +15,18 @@ typedef enum {
 
 BreachType inferBreach(double value, double lowerLimit, double upperLimit);
 BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC);
+
+typedef struct
+{
+  double LowerLimit;
+  double UpperLimit;
+}stCoolingLimits_t;
+
+typedef struct
+{
+  CoolingType enumCoolType;
+  stCoolingLimits_t CoolingLimits;
+}MapCoolerTypeToLimits_t;
 
 typedef enum {
   TO_CONTROLLER,
