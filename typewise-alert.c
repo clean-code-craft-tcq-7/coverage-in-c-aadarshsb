@@ -1,18 +1,37 @@
 #include "typewise-alert.h"
 #include <stdio.h>
 
-BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
-  if(value < lowerLimit) {
+//static function prototype
+static const stCoolingLimits_t GetLimitsFromCoolingType(CoolingType f_enumCoolingType);
+
+
+static const stCoolingLimits_t GetLimitsFromCoolingType(const CoolingType f_enumCoolingType)
+{
+  return arrtyMap[f_enumCoolingType].CoolingLimits;
+}
+
+const MapCoolerTypeToLimits_t* const arrtyCoolingSystemToLimitMap[NO_OF_COOLING_TYPE] = 
+{
+ {PASSIVE_COOLING, {0U, 35U}},
+ {HI_ACTIVE_COOLING, {0U, 45U}},
+ {MED_ACTIVE_COOLING, {0U, 40U}}
+};
+
+BreachType inferBreach(double value, stCoolingLimits_t f_stCoolingLimits) {
+  if(value < f_stCoolingLimits.lowerLimit) {
     return TOO_LOW;
   }
-  if(value > upperLimit) {
+  if(value > f_stCoolingLimits.upperLimit) {
     return TOO_HIGH;
   }
   return NORMAL;
 }
 
-BreachType classifyTemperatureBreach(
-    CoolingType coolingType, double temperatureInC) {
+BreachType classifyTemperatureBreach( \
+    CoolingType coolingType, double temperatureInC) 
+{
+  stCoolingLimits_t stCoolLimits = arrtyCoolingSystemToLimitMap(coolingType);
+#if 0
   int lowerLimit = 0;
   int upperLimit = 0;
   switch(coolingType) {
@@ -29,7 +48,8 @@ BreachType classifyTemperatureBreach(
       upperLimit = 40;
       break;
   }
-  return inferBreach(temperatureInC, lowerLimit, upperLimit);
+#endif
+  return inferBreach(temperatureInC, stCoolLimits);
 }
 
 void checkAndAlert(
