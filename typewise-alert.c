@@ -7,21 +7,21 @@ static const stCoolingLimits_t GetLimitsFromCoolingType(CoolingType f_enumCoolin
 
 static const stCoolingLimits_t GetLimitsFromCoolingType(const CoolingType f_enumCoolingType)
 {
-  return arrtyMap[f_enumCoolingType].CoolingLimits;
+  return GetLimitsFromCoolingType[f_enumCoolingType].CoolingLimits;
 }
 
 const MapCoolerTypeToLimits_t* const arrtyCoolingSystemToLimitMap[NO_OF_COOLING_TYPE] = 
 {
- {PASSIVE_COOLING, {0U, 35U}},
- {HI_ACTIVE_COOLING, {0U, 45U}},
- {MED_ACTIVE_COOLING, {0U, 40U}}
+ {PASSIVE_COOLING, 0U, 35U},
+ {HI_ACTIVE_COOLING, 0U, 45U},
+ {MED_ACTIVE_COOLING, 0U, 40U}
 };
 
 BreachType inferBreach(double value, stCoolingLimits_t f_stCoolingLimits) {
-  if(value < f_stCoolingLimits.lowerLimit) {
+  if(value < f_stCoolingLimits.LowerLimit) {
     return TOO_LOW;
   }
-  if(value > f_stCoolingLimits.upperLimit) {
+  if(value > f_stCoolingLimits.UpperLimit) {
     return TOO_HIGH;
   }
   return NORMAL;
