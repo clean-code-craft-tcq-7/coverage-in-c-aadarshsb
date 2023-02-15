@@ -24,7 +24,7 @@ void (*EmailMapFnPointer[NO_OF_BREACH_TYPES])(const char*)=
 
 void (*AlertMessageTypeFnPointer[NO_OF_ALERT_TYPES])(enumBreachType_t)= 
 {
-  sendToEmail,
+  sendToController,
   sendToEmail
 };
 
@@ -48,7 +48,7 @@ void checkAndAlert(enumAlertTarget_t alertTarget, stBatteryCharacter_t batteryCh
 {
   enumBreachType_t breachType = classifyTemperatureBreach(batteryChar.coolingType, temperatureInC);
   if(alertTarget < NO_OF_ALERT_TYPES)
-    (*AlertMessageTypeFnPointer)[alertTarget](breachType);
+    (*AlertMessageTypeFnPointer)[(unsigned int)alertTarget](breachType);
 }
 
 void sendToController(enumBreachType_t breachType) 
@@ -61,7 +61,7 @@ void sendToEmail(enumBreachType_t breachType)
 {
   const char* recepient = "a.b@c.com";
   if(breachType < NO_OF_BREACH_TYPES)
-    (*EmailMapFnPointer)[breachType](recepient);
+    (*EmailMapFnPointer)[(unsigned int)breachType](recepient);
 }
 
 //------------------------static function defintion----------------
