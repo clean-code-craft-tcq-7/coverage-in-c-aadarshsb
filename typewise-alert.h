@@ -28,13 +28,13 @@ typedef enum {
 } enumAlertTarget_t;
 
 typedef struct {
-  CoolingType coolingType;
+  enumCoolingType_t coolingType;
   char brand[48];
 } stBatteryCharacter_t;
 
 //----------------------Function prototypes---------------------------------------
-enumBreachType inferBreach(const double value, const stCoolingLimits_t f_CoolingLimit);
-enumBreachType classifyTemperatureBreach(const enumCoolingType_t coolingType,const double temperatureInC);
+enumBreachType_t inferBreach(const double value, const stCoolingLimits_t f_CoolingLimit);
+enumBreachType_t classifyTemperatureBreach(const enumCoolingType_t coolingType,const double temperatureInC);
 void checkAndAlert(const enumAlertTarget_t alertTarget,const stBatteryCharacter_t batteryChar,const double temperatureInC);
 void sendToController(enumCoolingType_t breachType);
 void sendToEmail(enumCoolingType_t breachType);
