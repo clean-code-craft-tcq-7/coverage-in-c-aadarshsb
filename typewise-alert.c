@@ -15,14 +15,14 @@ const stCoolingLimits_t arrtyCoolingSystemToLimitMap[NO_OF_COOLING_TYPE] =
  [MED_ACTIVE_COOLING] = {.LowerLimit = 0.0, .UpperLimit = 40.0}
 };
 
-void const* (*EmailMapFnPointer[NO_OF_BREACH_TYPES])(const char*)= 
+void (*EmailMapFnPointer[NO_OF_BREACH_TYPES])(const char*)= 
 {
   sendEmailForLowBreach,
   SendEmailForHighBreach,
   SendEmailForNormalDummy
 };
 
-void const* (*AlertMessageTypeFnPointer[NO_OF_ALERT_TYPES])(enumBreachType_t)= 
+void (*AlertMessageTypeFnPointer[NO_OF_ALERT_TYPES])(enumBreachType_t)= 
 {
   sendToEmail,
   sendToEmail
