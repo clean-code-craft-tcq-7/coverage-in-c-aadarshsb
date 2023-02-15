@@ -1,21 +1,21 @@
 #include "typewise-alert.h"
 #include <stdio.h>
 //-------------------static function prototypes------------------------------
-static inline void sendEmailForLowBreach(const char* );
-static inline void SendEmailForHighBreach(const char* );
-static inline void SendEmailForNormalDummy(const char* );
+static inline const void sendEmailForLowBreach(const char* );
+static inline const void SendEmailForHighBreach(const char* );
+static inline const void SendEmailForNormalDummy(const char* );
 static inline void PrintInvaildEmail(void);
 
 //--------------------------constants-------------------------------------
 //Mapping array to avoid state machine 
-const stCoolingLimits_t* const arrtyCoolingSystemToLimitMap[NO_OF_COOLING_TYPE] = 
+const stCoolingLimits_t arrtyCoolingSystemToLimitMap[NO_OF_COOLING_TYPE] = 
 {
  [PASSIVE_COOLING] = {.LowerLimit = 0U, .UpperLimit = 35U},
  [HI_ACTIVE_COOLING] = {.LowerLimit = 0U, .UpperLimit = 45U},
  [MED_ACTIVE_COOLING] = {.LowerLimit = 0U, .UpperLimit = 40U}
 };
 
-const void (*EmailMapFnPointer[NO_OF_BREACH_TYPES])(char*)= 
+const void (*EmailMapFnPointer[NO_OF_BREACH_TYPES])(const char*)= 
 {
   sendEmailForLowBreach,
   SendEmailForHighBreach,
@@ -29,7 +29,7 @@ const void (*AlertMessageTypeFnPointer[NO_OF_ALERT_TYPES])(enumBreachType_t)=
 };
 
 //------------------------function def--------------------------------------------
-enumBreachType inferBreach(double f_dTempInC, stCoolingLimits_t f_stCoolingLimits) {
+enumBreachType_t inferBreach(double f_dTempInC, stCoolingLimits_t f_stCoolingLimits) {
   if(f_dTempInC < f_stCoolingLimits.LowerLimit) {
     return TOO_LOW;
   }
@@ -39,14 +39,14 @@ enumBreachType inferBreach(double f_dTempInC, stCoolingLimits_t f_stCoolingLimit
   return NORMAL;
 }
 
-enumBreachType classifyTemperatureBreach(enumCoolingType_t coolingType, double temperatureInC) 
+enumBreachType_t classifyTemperatureBreach(enumCoolingType_t coolingType, double temperatureInC) 
 {
   return inferBreach(temperatureInC, arrtyCoolingSystemToLimitMap[coolingType]);
 }
 
 void checkAndAlert(enumAlertTarget_t alertTarget, stBatteryCharacter_t batteryChar, double temperatureInC) 
 {
-  BreachType breachType = classifyTemperatureBreach(batteryChar.coolingType, temperatureInC);
+  enumBreachType_t breachType = classifyTemperatureBreach(batteryChar.coolingType, temperatureInC);
   if(alertTarget < NO_OF_ALERT_TYPES)
     (*AlertMessageTypeFnPointer)[alertTarget](breachType);
 }
@@ -69,7 +69,7 @@ static inline void sendEmailForLowBreach(const char* f_recepient)
 {
   if(f_recepient != NULL) //avoid null pointer deferencing
   {
-    printf("To: %s\n", recepient);
+    printf("To: %s\n", f_recepient);
     printf("Hi, the temperature is too low\n");
   }
   else
@@ -80,7 +80,7 @@ static inline void SendEmailForHighBreach(const char* f_recepient)
 {
   if(f_recepient != NULL)
   {
-    printf("To: %s\n", recepient);
+    printf("To: %s\n", f_recepient);
     printf("Hi, the temperature is too high\n");
   }
   else
