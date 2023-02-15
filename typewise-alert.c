@@ -1,9 +1,9 @@
 #include "typewise-alert.h"
 #include <stdio.h>
 //-------------------static function prototypes------------------------------
-static inline const void sendEmailForLowBreach(const char* );
-static inline const void SendEmailForHighBreach(const char* );
-static inline const void SendEmailForNormalDummy(const char* );
+static inline void sendEmailForLowBreach(const char* );
+static inline void SendEmailForHighBreach(const char* );
+static inline void SendEmailForNormalDummy(const char* );
 static inline void PrintInvaildEmail(void);
 
 //--------------------------constants-------------------------------------
@@ -15,14 +15,14 @@ const stCoolingLimits_t arrtyCoolingSystemToLimitMap[NO_OF_COOLING_TYPE] =
  [MED_ACTIVE_COOLING] = {.LowerLimit = 0U, .UpperLimit = 40U}
 };
 
-const void (*EmailMapFnPointer[NO_OF_BREACH_TYPES])(const char*)= 
+const* void (*EmailMapFnPointer[NO_OF_BREACH_TYPES])(const char*)= 
 {
   sendEmailForLowBreach,
   SendEmailForHighBreach,
   SendEmailForNormalDummy
 };
 
-const void (*AlertMessageTypeFnPointer[NO_OF_ALERT_TYPES])(enumBreachType_t)= 
+const* void (*AlertMessageTypeFnPointer[NO_OF_ALERT_TYPES])(enumBreachType_t)= 
 {
   sendToEmail,
   sendToEmail
