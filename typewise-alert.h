@@ -36,5 +36,5 @@ typedef struct {
 enumBreachType_t inferBreach(const double value, const stCoolingLimits_t f_CoolingLimit);
 enumBreachType_t classifyTemperatureBreach(const enumCoolingType_t coolingType,const double temperatureInC);
 void checkAndAlert(const enumAlertTarget_t alertTarget,const stBatteryCharacter_t batteryChar,const double temperatureInC);
-void sendToController(enumCoolingType_t breachType);
-void sendToEmail(enumCoolingType_t breachType);
+void sendToController(enumBreachType_t breachType);
+void sendToEmail(enumBreachType_t breachType);
