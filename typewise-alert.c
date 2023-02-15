@@ -10,19 +10,19 @@ static inline void PrintInvaildEmail(void);
 //Mapping array to avoid state machine 
 const stCoolingLimits_t arrtyCoolingSystemToLimitMap[NO_OF_COOLING_TYPE] = 
 {
- [PASSIVE_COOLING] = {.LowerLimit = 0U, .UpperLimit = 35U},
- [HI_ACTIVE_COOLING] = {.LowerLimit = 0U, .UpperLimit = 45U},
- [MED_ACTIVE_COOLING] = {.LowerLimit = 0U, .UpperLimit = 40U}
+ [PASSIVE_COOLING] = {.LowerLimit = 0.0, .UpperLimit = 35.0},
+ [HI_ACTIVE_COOLING] = {.LowerLimit = 0.0, .UpperLimit = 45.0},
+ [MED_ACTIVE_COOLING] = {.LowerLimit = 0.0, .UpperLimit = 40.0}
 };
 
-const* void (*EmailMapFnPointer[NO_OF_BREACH_TYPES])(const char*)= 
+void const* (*EmailMapFnPointer[NO_OF_BREACH_TYPES])(const char*)= 
 {
   sendEmailForLowBreach,
   SendEmailForHighBreach,
   SendEmailForNormalDummy
 };
 
-const* void (*AlertMessageTypeFnPointer[NO_OF_ALERT_TYPES])(enumBreachType_t)= 
+void const* (*AlertMessageTypeFnPointer[NO_OF_ALERT_TYPES])(enumBreachType_t)= 
 {
   sendToEmail,
   sendToEmail
@@ -95,46 +95,3 @@ static inline void PrintInvaildEmail(void)
 {
   printf("Provide a proper email ID \n");
 }
-
-//-=---------------------------backups-----------------
-#if 0 
-  switch(breachType) {
-    case TOO_LOW:
-      printf("To: %s\n", recepient);
-      printf("Hi, the temperature is too low\n");
-      break;
-    case TOO_HIGH:
-      printf("To: %s\n", recepient);
-      printf("Hi, the temperature is too high\n");
-      break;
-    case NORMAL:
-      break;
-  }
-
-  switch(alertTarget) 
-  {
-    case TO_CONTROLLER:
-      sendToController(breachType);
-      break;
-    case TO_EMAIL:
-      sendToEmail(breachType);
-      break;
-  }
-
-  int lowerLimit = 0;
-  int upperLimit = 0;
-  switch(coolingType) {
-    case PASSIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 35;
-      break;
-    case HI_ACTIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 45;
-      break;
-    case MED_ACTIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 40;
-      break;
-  }
-#endif
