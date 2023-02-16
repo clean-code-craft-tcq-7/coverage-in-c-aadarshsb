@@ -17,16 +17,16 @@ const stCoolingLimits_t arrtyCoolingSystemToLimitMap[NO_OF_COOLING_TYPE] =
 
 void (*EmailMapFnPointer[NO_OF_BREACH_TYPES])(const char*) = 
 {
-  [TOO_LOW] = sendEmailForLowBreach,
-  [TOO_HIGH] = SendEmailForHighBreach,
-  [NORMAL] = SendEmailForNormalDummy
+ sendEmailForLowBreach,
+ SendEmailForHighBreach,
+ SendEmailForNormalDummy
 };
 
-void (*AlertMessageTypeFnPointer[NO_OF_ALERT_TYPES])(enumBreachType_t)= 
+void (*AlertMessageTypeFnPointer[NO_OF_ALERT_TYPES])(enumBreachType_t) = 
 {
-  [TO_CONTROLLER] = sendToController,
-  [TO_EMAIL] = sendToEmail
-};
+ sendToController,
+ sendToEmail
+ };
 
 //------------------------function def--------------------------------------------
 enumBreachType_t inferBreach(double f_dTempInC, stCoolingLimits_t f_stCoolingLimits) {
@@ -48,7 +48,7 @@ void checkAndAlert(enumAlertTarget_t alertTarget, stBatteryCharacter_t batteryCh
 {
   enumBreachType_t breachType = classifyTemperatureBreach(batteryChar.coolingType, temperatureInC);
   if(alertTarget < NO_OF_ALERT_TYPES)
-    (*AlertMessageTypeFnPointer)[(unsigned int)alertTarget](breachType);
+    (*AlertMessageTypeFnPointer[alertTarget])(breachType);
 }
 
 void sendToController(enumBreachType_t breachType) 
@@ -61,7 +61,7 @@ void sendToEmail(enumBreachType_t breachType)
 {
   const char* recepient = "a.b@c.com";
   if(breachType < NO_OF_BREACH_TYPES)
-    (*EmailMapFnPointer)[(unsigned int)breachType](recepient);
+    (*EmailMapFnPointer[breachType])(recepient);
 }
 
 //------------------------static function defintion----------------
