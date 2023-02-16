@@ -33,7 +33,7 @@ typedef struct {
 } stBatteryCharacter_t;
 
 //----------------------Function prototypes---------------------------------------
-enumBreachType_t inferBreach(const double value, const stCoolingLimits_t f_CoolingLimit);
+enumBreachType_t inferBreach(const double value, const double lowerlimit, const double upperlimit);
 enumBreachType_t classifyTemperatureBreach(const enumCoolingType_t coolingType,const double temperatureInC);
 void checkAndAlert(const enumAlertTarget_t alertTarget,const stBatteryCharacter_t batteryChar,const double temperatureInC);
 void sendToController(enumBreachType_t breachType);
