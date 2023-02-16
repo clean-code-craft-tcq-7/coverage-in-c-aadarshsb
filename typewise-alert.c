@@ -29,11 +29,11 @@ void (*AlertMessageTypeFnPointer[NO_OF_ALERT_TYPES])(enumBreachType_t) =
  };
 
 //------------------------function def--------------------------------------------
-enumBreachType_t inferBreach(double f_dTempInC, stCoolingLimits_t f_stCoolingLimits) {
-  if(f_dTempInC < f_stCoolingLimits.LowerLimit) {
+enumBreachType_t inferBreach(double f_dTempInC, double lowerlimit, double upperlimit) {
+  if(f_dTempInC < lowerlimit) {
     return TOO_LOW;
   }
-  if(f_dTempInC > f_stCoolingLimits.UpperLimit) {
+  if(f_dTempInC > upperlimit) {
     return TOO_HIGH;
   }
   return NORMAL;
@@ -41,7 +41,7 @@ enumBreachType_t inferBreach(double f_dTempInC, stCoolingLimits_t f_stCoolingLim
 
 enumBreachType_t classifyTemperatureBreach(enumCoolingType_t coolingType, double temperatureInC) 
 {
-  return inferBreach(temperatureInC, arrtyCoolingSystemToLimitMap[coolingType]);
+  return inferBreach(temperatureInC, arrtyCoolingSystemToLimitMap[coolingType].LowerLimit, arrtyCoolingSystemToLimitMap[coolingType].UpperLimit);
 }
 
 void checkAndAlert(enumAlertTarget_t alertTarget, stBatteryCharacter_t batteryChar, double temperatureInC) 
